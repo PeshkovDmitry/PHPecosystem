@@ -20,7 +20,6 @@ class HandleEventsDaemonCommand extends Command
     public function run(array $options = []): void
     {
         $this->initPcntl();
-
         $this->daemonRun($options);
     }
 
@@ -33,12 +32,10 @@ class HandleEventsDaemonCommand extends Command
                 case SIGHUP:
                     $lastData = $this->getCurrentTime();
                     $lastData[0] = $lastData[0] - 1;
-
                     file_put_contents(self::CACHE_PATH, json_encode($lastData));
                     exit;
             }
         };
-
         pcntl_signal(SIGTERM, $callback);
         pcntl_signal(SIGHUP, $callback);
         pcntl_signal(SIGINT, $callback);
@@ -47,20 +44,14 @@ class HandleEventsDaemonCommand extends Command
     private function daemonRun(array $options)
     {
         $lastData = $this->getLastData();
-
         $handleEventsCommand = new HandleEventsCommand($this->app);
-
         while (true) {
             if ($lastData === $this->getCurrentTime()) {
                 sleep(10);
-
                 continue;
             }
-
             $handleEventsCommand->run($options);
-
             $lastData = $this->getCurrentTime();
-
             sleep(10);
         }
     }
@@ -79,11 +70,9 @@ class HandleEventsDaemonCommand extends Command
     private function getLastData(): array
     {
         $lastData = file_get_contents(self::CACHE_PATH);
-
         if ($lastData) {
             return json_decode($lastData);
         }
-
         return [];
     }
 }
