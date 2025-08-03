@@ -8,3 +8,7 @@ php runner -c save_event --name 'name' --receiver 1 --text 'text' --cron '* * * 
 
 sudo supervisorctl status
 sudo supervisorctl restart all
+
+### Мой ID 
+
+Your own ID is: 6150807891

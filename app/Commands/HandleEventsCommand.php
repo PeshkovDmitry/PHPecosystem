@@ -9,6 +9,7 @@ use App\Database\SQLite;
 use App\EventSender\EventSender;
 
 use App\Models\Event;
+use App\Telegram\TelegramApiImpl;
 
 //use App\Models\EventDto;
 
@@ -25,7 +26,7 @@ class HandleEventsCommand extends Command
     {
         $event = new Event(new SQLite($this->app));
         $events = $event->select();
-        $eventSender = new EventSender();
+        $eventSender = new EventSender(new TelegramApiImpl($this->app->env('TELEGRAM_TOKEN')));
         foreach ($events as $event) {
             if ($this->shouldEventBeRan($event)) {
                 $eventSender->sendMessage($event["receiver_id"], $event["text"]);
