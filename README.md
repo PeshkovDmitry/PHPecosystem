@@ -16,6 +16,10 @@ php /home/dmitry/cur/runner -c queue_manager
 
 php /home/dmitry/cur/runner -c tgMessages
 
+### Запуск простых юнит-тестов
+
+php vendor/bin/phpunit ./tests/
+
 ## Работа с супервизором
 
 sudo supervisorctl status

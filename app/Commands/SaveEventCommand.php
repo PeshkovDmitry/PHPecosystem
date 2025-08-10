@@ -57,7 +57,7 @@ class SaveEventCommand extends Command
         return getopt($shortopts, $longopts);
     }
 
-    private function isNeedHelp(array $options): bool
+    public function isNeedHelp(array $options): bool
     {
         return !isset($options['name']) ||
             !isset($options['text']) ||
@@ -78,7 +78,7 @@ class SaveEventCommand extends Command
 	Для справки используйте флаги -h или --help";
     }
 
-    private function getCronValues(string $cronString): array
+    public function getCronValues(string $cronString): array
     {
         $cronValues = explode(" ", $cronString);
         $cronValues = array_map(function ($item) {
