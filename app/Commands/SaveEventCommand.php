@@ -18,7 +18,7 @@ class SaveEventCommand extends Command
         $this->app = $app;
     }
 
-    public function run(array $options  = []): void
+    public function run(array $options = []): void
     {
         $options = $this->getGetoptOptionValues();
         if ($this->isNeedHelp($options)) {

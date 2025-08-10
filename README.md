@@ -4,7 +4,7 @@
 
 php runner -c save_event --name 'name' --receiver 1 --text 'text' --cron '* * * * *'
 
-### Проверка наличия напоминаний в базе и отправка их в очередь (через консоль)
+### Проверка наличия напоминаний в базе и отправка их в очередь
 
 php runner -c handle_events
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Queue;
 
@@ -7,24 +7,28 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQ implements Queue {
+class RabbitMQ implements Queue
+{
 
     private AMQPMessage|null $lastMessage;
     private AbstractChannel|AMQPChannel $channel;
     private AMQPStreamConnection $connection;
 
-    public function __construct(private string $queueName) {
+    public function __construct(private string $queueName)
+    {
         $this->lastMessage = null;
     }
 
-    public function sendMessage($message): void {
+    public function sendMessage($message): void
+    {
         $this->open();
         $msg = new AMQPMessage($message, ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
         $this->channel->basic_publish($msg, '', $this->queueName);
         $this->close();
     }
 
-    public function getMessage(): ?string {
+    public function getMessage(): ?string
+    {
         $this->open();
         $msg = $this->channel->basic_get($this->queueName);
         if ($msg) {
@@ -35,20 +39,23 @@ class RabbitMQ implements Queue {
         return null;
     }
 
-    public function ackLastMessage(): void {
+    public function ackLastMessage(): void
+    {
         $this->lastMessage?->ack();
         $this->close();
     }
 
-    private function open() {
+    private function open()
+    {
         $this->connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
         $this->channel = $this->connection->channel();
         $this->channel->queue_declare($this->queueName, false, false, false, true);
     }
 
-    private function close(): void {
+    private function close(): void
+    {
         $this->channel->close();
         $this->connection->close();
     }
-    
+
 }
