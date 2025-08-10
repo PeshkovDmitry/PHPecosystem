@@ -5,6 +5,9 @@ use App\Commands\SaveEventCommand;
 use App\Models\Event;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers SaveEventCommand
+ */
 class SaveEventsCommandTest extends TestCase
 {
     /**
