@@ -21,6 +21,12 @@ class SaveEventCommand extends Command
     public function run(array $options = []): void
     {
         $options = $this->getGetoptOptionValues();
+        $event = new Event(new SQLite($this->app));
+        $this->runForEvent($options, $event);
+    }
+
+    public function runForEvent(array $options = [], Event $event): void
+    {
         if ($this->isNeedHelp($options)) {
             $this->showHelp();
             return;
@@ -40,7 +46,7 @@ class SaveEventCommand extends Command
             'month' => $cronValues[3],
             'day_of_week' => $cronValues[4]
         ];
-        $this->saveEvent($params);
+        $this->saveEvent($params, $event);
     }
 
     private function getGetoptOptionValues(): array
@@ -87,9 +93,8 @@ class SaveEventCommand extends Command
         return $cronValues;
     }
 
-    private function saveEvent(array $params): void
+    private function saveEvent(array $params, Event $event): void
     {
-        $event = new Event(new SQLite($this->app));
         $event->insert(
             implode(', ', array_keys($params)),
             array_values($params)

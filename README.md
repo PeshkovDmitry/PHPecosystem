@@ -10,11 +10,11 @@ php runner -c handle_events
 
 ### Выгрузка сообщений из очереди в Телеграм
 
-php /home/dmitry/cur/runner -c queue_manager
+php runner -c queue_manager
 
 ### Получение сообщений из Телеграмма 
 
-php /home/dmitry/cur/runner -c tgMessages
+php runner -c tgMessages
 
 ### Запуск простых юнит-тестов
 
